@@ -1,0 +1,57 @@
+#general parameter
+batch_size: 8 
+device: cpu #cpu or cuda (for gpu)
+mode: train #remove this line for test
+
+model:
+  #type of the model  ( you can find the name in src/model module with structure as "type"_model.py)
+  type: PoseConv3D
+  arch:
+    # type of architecture
+    type: poseconv3d
+    # parameter of this architecture type (this is your custumize)
+    in_channels: [32,64,128,256,512]
+    num_class: 21
+loss:
+  type: CrossEntropy
+
+optim:
+  lr: 0.001
+  weight_decay: 0.0005
+data:
+  train:
+    - type: RGB
+      data_root: "D:\\phuoc_sign\\dataset\\raw_data_set_1"
+      batch_size: 4
+      out_frame_num: 32
+      num_workers: 2
+      use_sampler: False
+      save_class_name: "experiment/class_name.txt"
+      augument: ~
+  test:
+    - type: RGB
+      data_root: "D:\\phuoc_sign\\dataset\\raw_data_set_1"
+      batch_size: 8
+      out_frame_num: 32
+      num_workers: 2
+      use_sampler: False 
+      save_class_name: ~
+      augument: ~
+
+
+train_parameter:
+  total_iter: 2000
+  loss_print_frequent: 100 #100 bacth
+  frequent: 100
+
+  visualize:
+      #use in futrue version with multiple task like object detection ,segment ..
+    type: classification
+    save_class_name: "experiment/class_name.txt"
+    # see all metric in utils.visualize.py
+    metric: ["accuracy","confusion_matrix","precision","recall"]
+    #folder to save all image resutl
+    save_folder: experiment
+val_parameter:
+  frequent: 100 
+
