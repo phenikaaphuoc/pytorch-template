@@ -16,5 +16,4 @@ Initiate model training by executing the following command, specifying the path 
 
 ```bash
 python src/pipelines/train_pipeline.py --config_file config_path
-This command will kickstart the training process based on your configured settings.
 ```
