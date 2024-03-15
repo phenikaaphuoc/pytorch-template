@@ -27,8 +27,8 @@ class Visualizor:
         path , name , iter just for path image save
         if path is None use nam
         '''
-        predict = predict.reshape(-1)
-        groundtruth = groundtruth.reshape(-1)
+        predict = np.array(predict).reshape(-1)
+        groundtruth = np.array(groundtruth).reshape(-1)
         assert(predict.shape == groundtruth.shape)
         id = str(time.time()) if iter is None else "iter_"+str(iter)
         save_folder = os.path.join(self.config["save_folder"],id)
@@ -43,7 +43,7 @@ class Visualizor:
     def recall(self,
                predict:np.array,
                groundtruth:np.array):
-        recall_value = recall_score(groundtruth,predict,average=None,zero_division=1,labels = range(self.num_class))
+        recall_value = recall_score(groundtruth,predict,average=None,zero_division=0,labels = range(self.num_class))
         with open(self.all_result_file,"a") as f:
             f.write(f"Mean recall : {np.mean(recall_value)}\n") 
         Visualizor.bar(recall_value,self.save_path,self.class_name)
@@ -59,7 +59,7 @@ class Visualizor:
     def confusion_matrix(self,
                          predict:np.array,
                          groundtruth:np.array):
-        confusion_value = CFM(groundtruth,predict,normalize = "true",labels = range(self.num_class))
+        confusion_value = CFM(groundtruth,predict,normalize = "true")
         df = pd.DataFrame(confusion_value,index = self.class_name,columns = self.class_name)
         plt.figure(figsize=(len(self.class_name)+3,len(self.class_name)))
         sn.heatmap(df,annot=True)
@@ -69,7 +69,7 @@ class Visualizor:
     def accuracy(self,
                  predict:np.array,
                  groundtruth:np.array):
-        accuracy_per_class = CFM(groundtruth,predict,normalize = "true",labels = range(self.num_class)).diagonal()
+        accuracy_per_class = CFM(groundtruth,predict,normalize = "true").diagonal()
         Visualizor.bar(accuracy_per_class,self.save_path,self.class_name)
         logger.info(f"Save a visualize of  accuracy at {self.save_path}")
         with open(self.all_result_file,"a") as f:

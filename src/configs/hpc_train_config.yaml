@@ -22,26 +22,25 @@ data:
   train:
     - type: RGB
       data_root: /work/21013187/phuoc_sign/dataset/data_sign_croped_2_raw
-      batch_size: 2
+      batch_size: 6
       out_frame_num: 32
-      num_workers: 4
+      num_workers: 8
       save_class_name: experiments/class_name.txt
       augument: ~
   test:
     - type: RGB
       data_root:  /work/21013187/phuoc_sign/dataset/data_sign_croped_2_raw
-      batch_size: 2
+      batch_size: 8
       out_frame_num: 32
-      num_workers: 2
+      num_workers: 8
       use_sampler: False 
       save_class_name: ~
       augument: ~
 
 
 train_parameter:
-  total_iter: 2000
-  loss_print_frequent: 100 #100 bacth
-  frequent: 100
+  total_iter: 8000
+  frequent: 50
 
   visualize:
       #use in futrue version with multiple task like object detection ,segment ..
@@ -52,5 +51,14 @@ train_parameter:
     #folder to save all image resutl
     save_folder: experiment
 val_parameter:
-  frequent: 1
+  frequent: 500
+  visualize:
+      #use in futrue version with multiple task like object detection ,segment ..
+    type: classification
+    save_class_name: "experiment/class_name.txt"
+    # see all metric in utils.visualize.py
+    metric: ["accuracy","confusion_matrix","precision","recall"]
+    #folder to save all image resutl
+    save_folder: experiment
+
 

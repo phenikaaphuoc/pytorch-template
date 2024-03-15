@@ -22,9 +22,9 @@ data:
   train:
     - type: RGB
       data_root: "D:\\phuoc_sign\\dataset\\raw_data_set_1"
-      batch_size: 4
+      batch_size: 8
       out_frame_num: 32
-      num_workers: 4
+      num_workers: 8
       use_sampler: False
       save_class_name: "experiment/class_name.txt"
       augument: ~
@@ -33,7 +33,7 @@ data:
       data_root: "D:\\phuoc_sign\\dataset\\raw_data_set_1"
       batch_size: 8
       out_frame_num: 32
-      num_workers: 2
+      num_workers: 8
       use_sampler: False 
       save_class_name: ~
       augument: ~

@@ -1,6 +1,7 @@
 experiment
 my_project.egg-info
 log_info.log
-*__pycache__*
+*pycache*
 data
-
+train*
+slur*

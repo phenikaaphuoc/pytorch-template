@@ -3,7 +3,7 @@ import torch.nn as nn
 from src.models.base import BaseModel
 from src.archs import get_arch
 import torch
-
+import numpy as np
 @MODEL_REGISTRY.register()
 class PoseConv3D(BaseModel):
     def __init__(self, config):
@@ -34,18 +34,20 @@ class PoseConv3D(BaseModel):
     def optimize(self):
         self.optim.zero_grad()
         #shape batch , N
-        self.output = nn.functional.softmax(self.forward(),dim = 1)
+        self.inference()
         loss = self.loss_fn(self.output, self.target)
         loss.backward()
         self.optim.step()
         self.train_loss.append(round(loss.detach().cpu().item(),2))
-        self.output = self.output.detach().cpu()
-        
+        del self.output  
         del self.input
     def get_current_loss(self):
         return self.train_loss[-1]
     def get_output(self):
-        value , self.output  =  self.output.max(1)
+        if not isinstance(self.output,np.ndarray):
+          self.output = self.output.detach().cpu()
         return self.output.numpy()
+    def inference(self):
+        self.output = self.forward()
     def forward(self):
-        return self.net(self.input)
+        return nn.functional.softmax(self.net(self.input),dim = -1)

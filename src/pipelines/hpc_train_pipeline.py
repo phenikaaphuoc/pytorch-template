@@ -28,10 +28,10 @@ def main(args):
                 break
             if count % config["train_parameter"]["frequent"] == 0:
                 logger.info(f"Loss in iter {count} : {model.get_current_loss()}")
-            if config["val_parameter"]["frequent"]:
+            if count % config["val_parameter"]["frequent"] == 0:
+                logger.info(f"validate at iter: {count}")
                 validataion.validate(model,val_data_loader_list,count)
                           
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Your script description")
