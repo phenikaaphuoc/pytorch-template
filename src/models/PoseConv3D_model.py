@@ -39,11 +39,13 @@ class PoseConv3D(BaseModel):
         loss.backward()
         self.optim.step()
         self.train_loss.append(round(loss.detach().cpu().item(),2))
-        self.output.detach().cpu().numpy()
+        self.output = self.output.detach().cpu()
+        
         del self.input
     def get_current_loss(self):
         return self.train_loss[-1]
     def get_output(self):
-        return self.output
+        value , self.output  =  self.output.max(1)
+        return self.output.numpy()
     def forward(self):
         return self.net(self.input)

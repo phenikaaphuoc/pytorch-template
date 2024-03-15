@@ -13,9 +13,8 @@ class Visualizor:
     def __init__(self,config):
         self.config = config
         os.makedirs(config["save_folder"],exist_ok=True) 
-        self.class_name  = ["phuoc","siu","ga"]
-        # with open(config["save_class_name"],"r") as f:
-        #        self.class_name = [class_name.strip() for class_name in f.readlines()]
+        with open(config["save_class_name"],"r") as f:
+                self.class_name = [class_name.strip() for class_name in f.readlines()]
     def visualize(self,
                   predict:np.array,
                   groundtruth:np.array ,

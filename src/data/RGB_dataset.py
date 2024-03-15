@@ -103,14 +103,12 @@ class VideoFloderDataset(Dataset):
         return len(self.datas)
 
     def __getitem__(self, idx):
-        logger.info("get item")
         rgb_data = np.float32(np.load(self.datas[idx]))
         rgb_data = self.temporal_transform(rgb_data)
         rgb_data = self.spacial_transform.transform_fn(rgb_data)
         rgb_data = rgb_data.permute(1,0,2,3).unsqueeze(0)
         return rgb_data,torch.nn.functional.one_hot(torch.tensor(self.labels[idx]), len(self.class_names)).unsqueeze(0).to(torch.float32)
 def collate_fn(data):
-    logger.info("collate_fn")
     features, labels  = zip(*data)
     features = torch.cat(features,dim = 0)
     labels = torch.cat(labels,dim = 0)
