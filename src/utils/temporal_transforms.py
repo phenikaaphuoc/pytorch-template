@@ -14,8 +14,8 @@ class LoopPadding(object):
             out.append(index)
         return out
 
-def duplicate_random_index(size):
-    index = sorted(np.random.randint(0,size,size).tolist())
+def duplicate_random_index(size,value): //tang so luong frame de dat duoc tong so frame mong muon (size = so frame muon tang len mong muon, value = tong so frame)
+    index = sorted(np.random.randint(0,value,size).tolist()) //gia su: frame sau khi random ra bi xao tron (vd 0 2 1 1 2 0) => sort lại để sắp xếp để hành động diễn ra đúng trình tự
     return index
 class TemporalBeginCrop(object):
     """Temporally crop the given frame indices at a beginning.
