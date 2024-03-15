@@ -14,8 +14,8 @@ class LoopPadding(object):
             out.append(index)
         return out
 
-def duplicate_random_index(size):
-    index = sorted(np.random.randint(0,size,size).tolist())
+def duplicate_random_index(size,value):
+    index = sorted(np.random.randint(0,value,size).tolist())
     return index
 class TemporalBeginCrop(object):
     """Temporally crop the given frame indices at a beginning.
@@ -99,7 +99,7 @@ class TemporalRandomCrop(object):
             list: Cropped frame indices.
         """
         if len(frames)<self.size:
-            out_index = duplicate_random_index(self.size)
+            out_index = duplicate_random_index(self.size,len(frames))
         else:
             frame_indices = list(range(frames.shape[0]))
             rand_end = max(0, frames.shape[0] - self.size - 1)
@@ -109,10 +109,6 @@ class TemporalRandomCrop(object):
         out = []
 
         for index in out_index:
-            if len(out_index) >= self.size:
-                break
-            out_index.append(index)
-
-        for index in out_index:
             out.append(frames[index])
+    
         return np.float32(out)

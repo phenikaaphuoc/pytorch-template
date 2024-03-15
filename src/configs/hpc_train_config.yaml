@@ -1,6 +1,6 @@
 #general parameter
 batch_size: 8 
-device: cpu #cpu or cuda (for gpu)
+device: cuda #cpu or cuda (for gpu)
 mode: train #remove this line for test
 
 model:
@@ -11,7 +11,7 @@ model:
     type: poseconv3d
     # parameter of this architecture type (this is your custumize)
     in_channels: [32,64,128,256,512]
-    num_class: 21
+    num_class: 19
 loss:
   type: CrossEntropy
 
@@ -21,17 +21,16 @@ optim:
 data:
   train:
     - type: RGB
-      data_root: "D:\\phuoc_sign\\dataset\\raw_data_set_1"
-      batch_size: 4
+      data_root: /work/21013187/phuoc_sign/dataset/data_sign_croped_2_raw
+      batch_size: 2
       out_frame_num: 32
       num_workers: 4
-      use_sampler: False
-      save_class_name: "experiment/class_name.txt"
+      save_class_name: experiments/class_name.txt
       augument: ~
   test:
     - type: RGB
-      data_root: "D:\\phuoc_sign\\dataset\\raw_data_set_1"
-      batch_size: 8
+      data_root:  /work/21013187/phuoc_sign/dataset/data_sign_croped_2_raw
+      batch_size: 2
       out_frame_num: 32
       num_workers: 2
       use_sampler: False 

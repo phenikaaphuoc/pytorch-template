@@ -24,18 +24,17 @@ def main(args):
             count+=1
             model.feedData((input,target))
             model.optimize()
-            import pdb;pdb.set_trace()
             if count > config['train_parameter']['total_iter']:
                 logger.info("Trainning finish")
                 break
             if count % config["train_parameter"]["frequent"] == 0:
                 logger.info(f"Loss in iter {count} : {model.get_current_loss()}")
             if config["val_parameter"]["frequent"]:
-                train_visualize.visualize(predict,target,count)
+                train_visualize.visualize(model.get_output(),target.max(1)[1],count)
                           
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Your script description")
-    parser.add_argument('--config_file', type=str, default=r"src\configs\train_config.yaml", help='path to config file')
+    parser.add_argument('--config_file', type=str, default=r"src/configs/hpc_train_config.yaml", help='path to config file')
     args = parser.parse_args()
     main(args)
