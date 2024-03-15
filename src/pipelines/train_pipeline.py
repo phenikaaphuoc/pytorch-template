@@ -23,12 +23,7 @@ def main(args):
             count+=1
             model.feedData((input,target))
             model.optimize()
-<<<<<<< HEAD
-            if count > config['total_iter']:
-=======
-            import pdb;pdb.set_trace()
             if count > config['train_parameter']['total_iter']:
->>>>>>> e65b2a2ff9dff929e759c40a160a27e9941de998
                 logger.info("Trainning finish")
                 break
             if count % config["train_parameter"]["frequent"] == 0:

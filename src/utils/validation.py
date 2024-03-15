@@ -8,6 +8,7 @@ from src.utils import logger
 class Validation:
     def __init__(self, opt):
         self.device = opt['device']
+        self.num_class = len(opt['model']['arch']['num_class'])
         self.visualizor =  Visualizor(opt['val_parameter']["visualize"])
     def validate(self, model, dataloader_list:list,iter = None):
         model.eval()
@@ -40,12 +41,12 @@ class Validation:
                         pbar.update(1)
                         del inputs
                         del targets
-                        import pdb;pdb.set_trace()
         
         predicted_classes = [np.argmax(pred) for pred in all_preds]
         all_targets = [np.argmax(pred) for pred in all_targets]
         average_loss = total_loss / count
         logger.info(f"iter {iter} have average loss {average_loss} ")
+        import pdb;pdb.set_trace()
         self.visualizor.visualize(predicted_classes,all_targets,iter)
         model.train()
         
