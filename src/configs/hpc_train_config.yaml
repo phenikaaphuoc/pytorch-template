@@ -25,7 +25,7 @@ data:
       batch_size: 6
       out_frame_num: 32
       num_workers: 8
-      save_class_name: experiments/class_name.txt
+      save_class_name: experiment/class_name.txt
       augument: ~
   test:
     - type: RGB
@@ -34,7 +34,7 @@ data:
       out_frame_num: 32
       num_workers: 8
       use_sampler: False 
-      save_class_name: ~
+      save_class_name: experiment/class_name.txt
       augument: ~
 
 
@@ -51,7 +51,7 @@ train_parameter:
     #folder to save all image resutl
     save_folder: experiment
 val_parameter:
-  frequent: 500
+  frequent: 1
   visualize:
       #use in futrue version with multiple task like object detection ,segment ..
     type: classification

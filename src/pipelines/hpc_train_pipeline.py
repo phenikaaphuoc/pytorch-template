@@ -15,22 +15,23 @@ def main(args):
     count = 0
     validataion  = Validation(config)
     logger.info("Training start")
-    for train_dataloader in train_data_loader_list:
-        if count > config['train_parameter']['total_iter']:
-            logger.info("Trainning finish")
-            break
-        for i , (input,target) in enumerate(train_dataloader):
-            count+=1
-            model.feedData((input,target))
-            model.optimize()
+    while count < config['train_parameter']['total_iter']:
+        for train_dataloader in train_data_loader_list:
             if count > config['train_parameter']['total_iter']:
                 logger.info("Trainning finish")
                 break
-            if count % config["train_parameter"]["frequent"] == 0:
-                logger.info(f"Loss in iter {count} : {model.get_current_loss()}")
-            if count % config["val_parameter"]["frequent"] == 0:
-                logger.info(f"validate at iter: {count}")
-                validataion.validate(model,val_data_loader_list,count)
+            for i , (input,target) in enumerate(train_dataloader):
+                count+=1
+                model.feedData((input,target))
+                model.optimize()
+                if count > config['train_parameter']['total_iter']:
+                    logger.info("Trainning finish")
+                    break
+                if count % config["train_parameter"]["frequent"] == 0:
+                    logger.info(f"Loss in iter {count} : {model.get_current_loss()}")
+                if count % config["val_parameter"]["frequent"] == 0 and False:
+                    logger.info(f"validate at iter: {count}")
+                    validataion.validate(model,val_data_loader_list,count)
                           
 
 if __name__ == "__main__":

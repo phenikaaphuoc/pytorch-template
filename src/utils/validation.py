@@ -38,6 +38,7 @@ class Validation:
                         pbar.update(1)
                         del inputs
                         del targets
+                        
 
         
         predicted_classes = [np.argmax(pred) for pred in all_preds]

@@ -19,21 +19,22 @@ def main(args):
     visulize = Visualizor(config['train_parameter']['visualize']).visualize(input,target,10)
     logger.info("Training start")
     exit()
-    for train_dataloader in train_data_loader_list:
-        if count > config['train_parameter']['total_iter']:
-            logger.info("Trainning finish")
-            break
-        for i , (input,target) in enumerate(train_dataloader):
-            count+=1
-            model.feedData((input,target))
-            model.optimize()
+    while count < config['train_paramter']['total_iter']:
+        for train_dataloader in train_data_loader_list:
             if count > config['train_parameter']['total_iter']:
                 logger.info("Trainning finish")
                 break
-            if count % config["train_parameter"]["frequent"] == 0:
-                logger.info(f"Loss in iter {count} : {model.get_current_loss()}")
-            if config["val_parameter"]["frequent"]:
-                validataion.validate(model,val_data_loader_list,count)
+            for i , (input,target) in enumerate(train_dataloader):
+                count+=1
+                model.feedData((input,target))
+                model.optimize()
+                if count > config['train_parameter']['total_iter']:
+                    logger.info("Trainning finish")
+                    break
+                if count % config["train_parameter"]["frequent"] == 0:
+                    logger.info(f"Loss in iter {count} : {model.get_current_loss()}")
+                if config["val_parameter"]["frequent"]:
+                    validataion.validate(model,val_data_loader_list,count)
                           
 
 if __name__ == "__main__":
