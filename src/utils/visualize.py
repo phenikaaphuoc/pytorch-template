@@ -15,6 +15,7 @@ class Visualizor:
         os.makedirs(config["save_folder"],exist_ok=True) 
         with open(config["save_class_name"],"r") as f:
                 self.class_name = [class_name.strip() for class_name in f.readlines()]
+        self.class_name = range(9)
         self.num_class = len(self.class_name)
     def visualize(self,
                   predict:np.array,
@@ -36,7 +37,9 @@ class Visualizor:
         self.all_result_file = os.path.join(save_folder,"all_result.txt")
         for metric in self.config["metric"]:
             plt.figure()
+            plt.xticks(rotation = 90)
             self.save_path = os.path.join(self.config["save_folder"],id,metric+".png")
+            print(metric)
             getattr(self,metric)(predict,groundtruth)
         
         
@@ -59,7 +62,7 @@ class Visualizor:
     def confusion_matrix(self,
                          predict:np.array,
                          groundtruth:np.array):
-        confusion_value = CFM(groundtruth,predict,normalize = "true")
+        confusion_value = CFM(groundtruth,predict,labels = range(self.num_class))
         df = pd.DataFrame(confusion_value,index = self.class_name,columns = self.class_name)
         plt.figure(figsize=(len(self.class_name)+3,len(self.class_name)))
         sn.heatmap(df,annot=True)
@@ -69,7 +72,7 @@ class Visualizor:
     def accuracy(self,
                  predict:np.array,
                  groundtruth:np.array):
-        accuracy_per_class = CFM(groundtruth,predict,normalize = "true").diagonal()
+        accuracy_per_class = CFM(groundtruth,predict,labels = range(self.num_class)).diagonal()
         Visualizor.bar(accuracy_per_class,self.save_path,self.class_name)
         logger.info(f"Save a visualize of  accuracy at {self.save_path}")
         with open(self.all_result_file,"a") as f:

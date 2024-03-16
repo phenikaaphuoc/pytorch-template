@@ -10,11 +10,15 @@ from src.utils.validation import Validation
 def main(args):
     
     config = read_yaml(args.config_file)
-    model = get_model(config)
-    train_data_loader_list,val_data_loader_list = get_dataloader_helper(config["data"])
+    # model = get_model(config)
+    # train_data_loader_list,val_data_loader_list = get_dataloader_helper(config["data"])
     count = 0
-    validataion  = Validation(config)
+    # validataion  = Validation(config)     
+    input  = [1,2,3,4,5,6,7]
+    target = [1,2,3,7,0,1,2]
+    visulize = Visualizor(config['train_parameter']['visualize']).visualize(input,target,10)
     logger.info("Training start")
+    exit()
     for train_dataloader in train_data_loader_list:
         if count > config['train_parameter']['total_iter']:
             logger.info("Trainning finish")
